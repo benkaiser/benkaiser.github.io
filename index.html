@@ -479,6 +479,68 @@
       flex-wrap: wrap;
       margin-bottom: 20px;
     }
+
+    /* ---- Outdated / Defunct indicator ---- */
+    .outdated-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(251, 146, 60, 0.1);
+      border: 1px solid rgba(251, 146, 60, 0.3);
+      color: #fb923c;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .row-outdated td {
+      opacity: 0.55;
+    }
+    .row-outdated:hover td {
+      opacity: 0.85;
+    }
+    .row-outdated td .outdated-badge {
+      opacity: 1;
+    }
+
+    .featured-card.card-outdated {
+      opacity: 0.6;
+      border-color: rgba(251, 146, 60, 0.25);
+    }
+    .featured-card.card-outdated:hover {
+      opacity: 0.85;
+    }
+    .featured-card.card-outdated::before {
+      background: linear-gradient(90deg, #fb923c, #f59e0b);
+    }
+
+    .status-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .status-toggle input[type="checkbox"] {
+      accent-color: var(--accent);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .outdated-legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
   </style>
 </head>
 <body>
@@ -562,10 +624,17 @@
         <option value="created-asc">Oldest First</option>
         <option value="name">Alphabetical</option>
       </select>
+      <label class="status-toggle">
+        <input type="checkbox" id="hide-outdated"> Hide outdated
+      </label>
     </div>
 
     <div class="category-pills" id="category-pills">
       <!-- Filled by JS -->
+    </div>
+
+    <div class="outdated-legend">
+      <span class="outdated-badge">Outdated</span> = no commits in over 2 years &mdash; may be unmaintained or completed
     </div>
 
     <div class="result-count" id="result-count"></div>
@@ -606,7 +675,7 @@
 const REPOS = [
   { name: "stretto", desc: "Beautiful web-based music player", stars: 632, forks: 97, lang: "JavaScript", homepage: "https://next.kaiserapps.com", pushed: "2026-03-29", created: "2013-12-17", featured: true, category: "music" },
   { name: "i3-wm-config", desc: "My custom configuration for i3 (window manager)", stars: 146, forks: 22, lang: "Python", homepage: "https://blog.kaiserapps.com/my_killer_i_3_setup/", pushed: "2025-05-15", created: "2014-02-10", featured: true, category: "devtools" },
-  { name: "mysql-slow-query-log-visualizer", desc: "A slow query log visualiser for slow MySQL queries", stars: 66, forks: 24, lang: "JavaScript", homepage: "", pushed: "2015-06-05", created: "2014-07-23", featured: true, category: "devtools" },
+  { name: "mysql-slow-query-log-visualizer", desc: "A slow query log visualiser for slow MySQL queries", stars: 66, forks: 24, lang: "JavaScript", homepage: "", pushed: "2015-06-05", created: "2014-07-23", category: "devtools" },
   { name: "desktop-command-remote", desc: "Execute desktop terminal commands from your phone through a web interface", stars: 24, forks: 7, lang: "CSS", homepage: "", pushed: "2013-11-10", created: "2013-10-30", featured: true, category: "devtools" },
   { name: "joey-mcp-client", desc: "An AI chat app with native OpenRouter and MCP support", stars: 6, forks: 3, lang: "Dart", homepage: "https://benkaiser.github.io/joey-mcp-client/", pushed: "2026-03-16", created: "2026-01-18", featured: true, category: "ai" },
   { name: "facebook-chat-downloader", desc: "Download the raw data for an entire Facebook thread", stars: 19, forks: 2, lang: "JavaScript", homepage: "https://facebook-download.kaiserapps.com/", pushed: "2016-12-28", created: "2016-11-09", featured: true, category: "tools" },
@@ -763,6 +832,16 @@ const LANG_COLORS = {
 let currentCategory = "all";
 let currentSort = "pushed";
 let searchQuery = "";
+let hideOutdated = false;
+
+// ========================================================
+//  OUTDATED DETECTION (>2 years since last push)
+// ========================================================
+const OUTDATED_CUTOFF_MS = 2 * 365.25 * 24 * 60 * 60 * 1000; // ~2 years
+function isOutdated(repo) {
+  const pushedDate = new Date(repo.pushed);
+  return (Date.now() - pushedDate.getTime()) > OUTDATED_CUTOFF_MS;
+}
 
 // ========================================================
 //  FEATURED CARDS
@@ -770,11 +849,16 @@ let searchQuery = "";
 function renderFeatured() {
   const grid = document.getElementById("featured-grid");
   const featured = REPOS.filter(r => r.featured).sort((a,b) => b.stars - a.stars);
-  grid.innerHTML = featured.map(r => `
-    <div class="featured-card">
+  grid.innerHTML = featured.map(r => {
+    const outdated = isOutdated(r);
+    return `
+    <div class="featured-card${outdated ? ' card-outdated' : ''}">
       <div class="card-top">
         <h3><a href="https://github.com/benkaiser/${r.name}" target="_blank" rel="noopener">${r.name}</a></h3>
-        ${r.stars > 0 ? `<span class="stars">★ ${r.stars}</span>` : ""}
+        <div style="display:flex;align-items:center;gap:8px">
+          ${outdated ? '<span class="outdated-badge">Outdated</span>' : ""}
+          ${r.stars > 0 ? `<span class="stars">★ ${r.stars}</span>` : ""}
+        </div>
       </div>
       <p class="desc">${r.desc}</p>
       <div class="card-footer">
@@ -788,7 +872,7 @@ function renderFeatured() {
         </div>
       </div>
     </div>
-  `).join("");
+  `}).join("");
 }
 
 // ========================================================
@@ -819,6 +903,10 @@ function getFiltered() {
 
   if (currentCategory !== "all") {
     list = list.filter(r => r.category === currentCategory);
+  }
+
+  if (hideOutdated) {
+    list = list.filter(r => !isOutdated(r));
   }
 
   if (searchQuery) {
@@ -858,9 +946,12 @@ function renderTable() {
 
   tbody.innerHTML = list.map(r => {
     const color = LANG_COLORS[r.lang] || "#6b7280";
-    const langClass = r.lang ? `lang-${r.lang.toLowerCase().replace(/[^a-z]/g, '')}` : "lang-default";
-    return `<tr>
-      <td><a class="repo-name" href="https://github.com/benkaiser/${r.name}" target="_blank" rel="noopener">${r.name}</a></td>
+    const outdated = isOutdated(r);
+    return `<tr class="${outdated ? 'row-outdated' : ''}">
+      <td>
+        <a class="repo-name" href="https://github.com/benkaiser/${r.name}" target="_blank" rel="noopener">${r.name}</a>
+        ${outdated ? ' <span class="outdated-badge">Outdated</span>' : ""}
+      </td>
       <td class="repo-desc">${r.desc}</td>
       <td>${r.lang ? `<span class="lang-dot" style="background:${color}"></span><span class="lang-label">${r.lang}</span>` : '<span class="lang-label" style="color:var(--text-muted)">—</span>'}</td>
       <td class="repo-stars-cell">${r.stars > 0 ? `★ ${r.stars}` : ""}</td>
@@ -975,6 +1066,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("sort-select").addEventListener("change", e => {
     currentSort = e.target.value;
+    renderTable();
+  });
+
+  document.getElementById("hide-outdated").addEventListener("change", e => {
+    hideOutdated = e.target.checked;
     renderTable();
   });
 });
