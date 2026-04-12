@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benjamin Kaiser — Project Index</title>
+  <meta name="description" content="Complete index of open-source projects by Benjamin Kaiser — Software Engineer at Microsoft, Gold Coast, Australia.">
+  <meta property="og:title" content="Benjamin Kaiser — Project Index">
+  <meta property="og:description" content="Complete index of 135+ open-source projects spanning music players, AI tools, developer utilities, and more.">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/608054?v=4">
+  <meta property="og:url" content="https://benkaiser.github.io">
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/608054?v=4" type="image/png">
+  <style>
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #111827;
+      --bg-card: #1a2233;
+      --bg-card-hover: #1f2b3f;
+      --text-primary: #e5e7eb;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent: #44bbff;
+      --accent-dim: #2d8abf;
+      --accent-glow: rgba(68, 187, 255, 0.15);
+      --star-gold: #fbbf24;
+      --border: #1f2937;
+      --border-light: #374151;
+      --tag-bg: rgba(68, 187, 255, 0.1);
+      --tag-border: rgba(68, 187, 255, 0.25);
+      --featured-border: rgba(68, 187, 255, 0.3);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #7dd3fc; }
+
+    /* ---- Canvas Background ---- */
+    #hero-bg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.35;
+    }
+
+    /* ---- Header / Hero ---- */
+    .hero {
+      position: relative;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 30px var(--accent-glow);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #e5e7eb 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border: 1px solid var(--border-light);
+      border-radius: 999px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .hero-links a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- Main Container ---- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---- Section ---- */
+    .section {
+      padding: 60px 0;
+    }
+    .section-header {
+      margin-bottom: 32px;
+    }
+    .section-header h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .section-header p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* ---- Featured Grid ---- */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .featured-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid var(--featured-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), #a78bfa);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .featured-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    .featured-card:hover::before { opacity: 1; }
+
+    .featured-card .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .featured-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .featured-card h3 a {
+      color: var(--text-primary);
+    }
+    .featured-card h3 a:hover {
+      color: var(--accent);
+    }
+
+    .stars {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--star-gold);
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .featured-card .desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-border);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .card-links {
+      display: flex;
+      gap: 10px;
+    }
+    .card-links a {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .card-links a:hover { color: var(--accent); }
+
+    /* ---- Search / Filter Bar ---- */
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 220px;
+      padding: 10px 16px 10px 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 12px center;
+      background-size: 18px 18px;
+    }
+    .search-box:focus { border-color: var(--accent); }
+    .search-box::placeholder { color: var(--text-muted); }
+
+    .filter-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .sort-select {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+    }
+    .sort-select:focus { border-color: var(--accent); }
+
+    .result-count {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* ---- Full Repo Table ---- */
+    .repo-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .repo-table thead th {
+      text-align: left;
+      padding: 12px 16px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .repo-table thead th:hover { color: var(--accent); }
+    .repo-table thead th .sort-arrow { margin-left: 4px; font-size: 0.7rem; }
+
+    .repo-table tbody tr {
+      transition: background 0.15s;
+    }
+    .repo-table tbody tr:hover {
+      background: var(--bg-card);
+    }
+    .repo-table tbody td {
+      padding: 10px 16px;
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .repo-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .repo-name:hover { color: var(--accent); }
+
+    .repo-desc {
+      color: var(--text-secondary);
+      font-size: 0.83rem;
+      max-width: 380px;
+    }
+
+    .lang-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    .lang-label {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+    }
+
+    .repo-links-cell a {
+      font-size: 0.8rem;
+      margin-right: 10px;
+      color: var(--text-muted);
+    }
+    .repo-links-cell a:hover { color: var(--accent); }
+
+    .repo-stars-cell {
+      color: var(--star-gold);
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .repo-date {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    /* ---- Language colors ---- */
+    .lang-javascript { background: #f1e05a; }
+    .lang-typescript { background: #3178c6; }
+    .lang-python { background: #3572A5; }
+    .lang-html { background: #e34c26; }
+    .lang-css { background: #563d7c; }
+    .lang-java { background: #b07219; }
+    .lang-dart { background: #00B4AB; }
+    .lang-ruby { background: #701516; }
+    .lang-swift { background: #F05138; }
+    .lang-c { background: #555555; }
+    .lang-cpp { background: #f34b7d; }
+    .lang-kotlin { background: #A97BFF; }
+    .lang-shell { background: #89e051; }
+    .lang-php { background: #4F5D95; }
+    .lang-default { background: #6b7280; }
+
+    /* ---- Footer ---- */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .footer a { color: var(--text-secondary); }
+    .footer a:hover { color: var(--accent); }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 768px) {
+      .hero { padding: 48px 16px 40px; }
+      .hero h1 { font-size: 1.8rem; }
+      .featured-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 20px; }
+
+      .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .repo-table { min-width: 700px; }
+
+      .controls { flex-direction: column; }
+      .search-box { min-width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.5rem; }
+      .hero-links { gap: 8px; }
+      .hero-links a { padding: 6px 12px; font-size: 0.8rem; }
+    }
+
+    /* Hidden class */
+    .hidden { display: none !important; }
+
+    /* Category pill section */
+    .category-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <canvas id="hero-bg"></canvas>
+  <div class="hero-content">
+    <img
+      src="https://avatars.githubusercontent.com/u/608054?v=4"
+      alt="Benjamin Kaiser"
+      class="avatar"
+      loading="eager"
+    >
+    <h1>Benjamin Kaiser</h1>
+    <p class="subtitle">Software Engineer at Microsoft &bull; Gold Coast, Australia</p>
+    <div class="hero-links">
+      <a href="https://github.com/benkaiser" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://benkaiser.dev" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Blog
+      </a>
+      <a href="https://kaiserapps.com" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Kaiserapps
+      </a>
+      <a href="https://mentorcruise.com/mentor/benjaminkaiser/" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Mentoring
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number" id="stat-repos">135</div>
+        <div class="stat-label">Original Repos</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" id="stat-stars">960+</div>
+        <div class="stat-label">Total Stars</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">163</div>
+        <div class="stat-label">Followers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">Years on GitHub</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURED PROJECTS ===== -->
+<div class="container">
+  <section class="section" id="featured">
+    <div class="section-header">
+      <h2>Featured Projects</h2>
+      <p>Highlighted work &mdash; actively developed, widely used, or particularly interesting.</p>
+    </div>
+    <div class="featured-grid" id="featured-grid">
+      <!-- Filled by JS -->
+    </div>
+  </section>
+
+  <!-- ===== FULL INDEX ===== -->
+  <section class="section" id="index">
+    <div class="section-header">
+      <h2>Complete Project Index</h2>
+      <p>Every original (non-fork) public repository, past and present.</p>
+    </div>
+
+    <div class="controls">
+      <input type="text" class="search-box" id="search" placeholder="Search projects by name, description, or language...">
+      <select class="sort-select" id="sort-select">
+        <option value="pushed">Recently Active</option>
+        <option value="stars">Most Stars</option>
+        <option value="created-desc">Newest First</option>
+        <option value="created-asc">Oldest First</option>
+        <option value="name">Alphabetical</option>
+      </select>
+    </div>
+
+    <div class="category-pills" id="category-pills">
+      <!-- Filled by JS -->
+    </div>
+
+    <div class="result-count" id="result-count"></div>
+
+    <div class="table-wrapper">
+      <table class="repo-table" id="repo-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Language</th>
+            <th>Stars</th>
+            <th>Links</th>
+            <th>Last Active</th>
+          </tr>
+        </thead>
+        <tbody id="repo-tbody">
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div>&copy; <script>document.write(new Date().getFullYear())</script> Benjamin Kaiser</div>
+  <div class="footer-links">
+    <a href="https://github.com/benkaiser" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://benkaiser.dev" target="_blank" rel="noopener">Blog</a>
+    <a href="https://kaiserapps.com" target="_blank" rel="noopener">Kaiserapps</a>
+  </div>
+</footer>
+
+<script>
+// ========================================================
+//  DATA — All original (non-fork) repositories
+// ========================================================
+const REPOS = [
+  { name: "stretto", desc: "Beautiful web-based music player", stars: 632, forks: 97, lang: "JavaScript", homepage: "https://next.kaiserapps.com", pushed: "2026-03-29", created: "2013-12-17", featured: true, category: "music" },
+  { name: "i3-wm-config", desc: "My custom configuration for i3 (window manager)", stars: 146, forks: 22, lang: "Python", homepage: "https://blog.kaiserapps.com/my_killer_i_3_setup/", pushed: "2025-05-15", created: "2014-02-10", featured: true, category: "devtools" },
+  { name: "mysql-slow-query-log-visualizer", desc: "A slow query log visualiser for slow MySQL queries", stars: 66, forks: 24, lang: "JavaScript", homepage: "", pushed: "2015-06-05", created: "2014-07-23", featured: true, category: "devtools" },
+  { name: "desktop-command-remote", desc: "Execute desktop terminal commands from your phone through a web interface", stars: 24, forks: 7, lang: "CSS", homepage: "", pushed: "2013-11-10", created: "2013-10-30", featured: true, category: "devtools" },
+  { name: "joey-mcp-client", desc: "An AI chat app with native OpenRouter and MCP support", stars: 6, forks: 3, lang: "Dart", homepage: "https://benkaiser.github.io/joey-mcp-client/", pushed: "2026-03-16", created: "2026-01-18", featured: true, category: "ai" },
+  { name: "facebook-chat-downloader", desc: "Download the raw data for an entire Facebook thread", stars: 19, forks: 2, lang: "JavaScript", homepage: "https://facebook-download.kaiserapps.com/", pushed: "2016-12-28", created: "2016-11-09", featured: true, category: "tools" },
+  { name: "web-share-images", desc: "Using the Web Share API to share an image, canvas contents or arbitrary HTML blocks", stars: 19, forks: 4, lang: "JavaScript", homepage: "https://benkaiser.github.io/web-share-images/", pushed: "2022-03-30", created: "2021-03-06", featured: true, category: "web" },
+  { name: "linktree-scraper", desc: "NPM library for scraping data from a linktree page", stars: 17, forks: 6, lang: "JavaScript", homepage: "", pushed: "2024-02-01", created: "2021-07-12", featured: true, category: "tools" },
+  { name: "kobo-whiteboard", desc: "Use your Kobo as a whiteboard and screenshare from your desktop!", stars: 14, forks: 4, lang: "HTML", homepage: "https://kobo.kaiser.lol", pushed: "2024-08-24", created: "2023-09-25", featured: true, category: "hardware" },
+  { name: "stretto-android-sync", desc: "A syncing application for Android to sync playlists from Stretto", stars: 14, forks: 3, lang: "Java", homepage: "https://github.com/benkaiser/stretto", pushed: "2019-01-11", created: "2014-07-29", category: "music" },
+  { name: "learn-piano", desc: "Learn Classical Songs by Playing them on a MIDI keyboard", stars: 10, forks: 1, lang: "JavaScript", homepage: "https://benkaiser.github.io/learn-piano/", pushed: "2022-02-21", created: "2020-03-23", featured: true, category: "music" },
+  { name: "pages-pastebin", desc: "Pastebin clone built using GitHub Pages and GitHub Actions", stars: 10, forks: 8, lang: "JavaScript", homepage: "https://benkaiser.github.io/pages-pastebin/", pushed: "2026-03-25", created: "2021-05-08", featured: true, category: "web" },
+  { name: "covid-vic-exposure-map", desc: "Map of Victoria Australia COVID exposure sites", stars: 9, forks: 1, lang: "HTML", homepage: "https://benkaiser.github.io/covid-vic-exposure-map/", pushed: "2022-05-31", created: "2021-05-27", category: "web" },
+  { name: "maply", desc: "Maply - Like Glympse for your browser", stars: 9, forks: 1, lang: "JavaScript", homepage: "", pushed: "2016-01-14", created: "2016-01-14", category: "web" },
+  { name: "llm-compare", desc: "Nodejs script to run an LLM prompt across a bunch of models", stars: 9, forks: 1, lang: "HTML", homepage: "https://benkaiser.github.io/llm-compare/results-with-responses.html", pushed: "2024-12-29", created: "2024-12-11", category: "ai" },
+  { name: "stretto-mobile-next", desc: "Stretto mobile version (work in progress)", stars: 9, forks: 0, lang: "JavaScript", homepage: "", pushed: "2023-01-06", created: "2018-10-02", category: "music" },
+  { name: "google-music-controller", desc: "Server to control Google Play Music through a web API", stars: 8, forks: 1, lang: "JavaScript", homepage: "", pushed: "2014-11-05", created: "2013-10-08", category: "music" },
+  { name: "sms-an-llm", desc: "Allows you to SMS an LLM, used in conjunction with SMS Gateway for Android", stars: 7, forks: 0, lang: "JavaScript", homepage: "https://benkaiser.dev/text-an-llm/", pushed: "2025-03-14", created: "2025-03-11", featured: true, category: "ai" },
+  { name: "messenger-gpt", desc: "Use Chat GPT to generate messenger.com chat responses inline", stars: 7, forks: 0, lang: "TypeScript", homepage: "", pushed: "2023-04-03", created: "2023-03-22", category: "ai" },
+  { name: "notification-scheduler", desc: "Service to create timer-based web-push notifications", stars: 7, forks: 0, lang: "TypeScript", homepage: "", pushed: "2022-02-06", created: "2022-01-28", category: "tools" },
+  { name: "ai-bible-plan-generator", desc: "Website to generate and read through Bible reading plans generated by LLMs", stars: 5, forks: 1, lang: "TypeScript", homepage: "https://aibibleplan.org", pushed: "2026-03-29", created: "2025-01-10", category: "ai" },
+  { name: "dispatch-app", desc: "Source code for GitHub App to trigger actions without authentication", stars: 5, forks: 0, lang: "JavaScript", homepage: "https://github.com/apps/public-action-trigger", pushed: "2021-05-04", created: "2021-05-01", category: "devtools" },
+  { name: "sheeeet", desc: "Timesheet management web app - written in node.js", stars: 5, forks: 0, lang: "JavaScript", homepage: "", pushed: "2014-11-04", created: "2014-10-20", category: "tools" },
+  { name: "geohash-notifier", desc: "Service to notify you via email when a geohash is nearby", stars: 4, forks: 0, lang: "JavaScript", homepage: "https://geohash.kaiserapps.com", pushed: "2026-03-31", created: "2016-10-25", category: "fun" },
+  { name: "earnings", desc: "Analyze past earnings trends and post-earnings movements of top companies", stars: 4, forks: 0, lang: "TypeScript", homepage: "https://benkaiser.github.io/earnings/#/MSFT", pushed: "2026-01-21", created: "2020-07-19", category: "finance" },
+  { name: "mafs_rater", desc: "Married at First Sight - Season 8 Rating Tool", stars: 4, forks: 0, lang: "TypeScript", homepage: "https://benkaiser.github.io/mafs_rater/", pushed: "2023-03-15", created: "2021-03-04", category: "fun" },
+  { name: "stretto-streamer", desc: "Server that live-transcodes YouTube and SoundCloud items", stars: 4, forks: 0, lang: "JavaScript", homepage: "", pushed: "2022-12-10", created: "2017-06-16", category: "music" },
+  { name: "pages-imgur", desc: "Image Upload Site - Built with GitHub Pages and GitHub Actions", stars: 3, forks: 0, lang: "JavaScript", homepage: "https://benkaiser.github.io/pages-imgur/", pushed: "2025-04-23", created: "2021-05-05", category: "web" },
+  { name: "similar-songs", desc: "Module to find similar songs and their YouTube videos by track title and artist", stars: 3, forks: 1, lang: "JavaScript", homepage: "", pushed: "2015-12-15", created: "2015-12-14", category: "music" },
+  { name: "song-search", desc: "Simple Node.js module used to find song information (and associated YouTube IDs)", stars: 3, forks: 1, lang: "JavaScript", homepage: "", pushed: "2016-11-06", created: "2016-11-06", category: "music" },
+  { name: "youtube-to-mp3", desc: "Convert YouTube to MP3 in the browser, cache conversion with Sia SkyNet", stars: 3, forks: 0, lang: "JavaScript", homepage: "https://benkaiser.github.io/youtube-to-mp3/", pushed: "2020-11-16", created: "2020-11-01", category: "music" },
+  { name: "cheap-coke", desc: "Decide which supermarket to go to based purely on the price of Coke", stars: 2, forks: 0, lang: "JavaScript", homepage: "https://cheapcoke.com", pushed: "2023-05-10", created: "2020-12-23", category: "fun" },
+  { name: "arch-package-sync", desc: "Upload and download package lists between computers on Arch Linux", stars: 2, forks: 1, lang: "Python", homepage: "", pushed: "2013-09-25", created: "2013-09-23", category: "devtools" },
+  { name: "ChatGPT-RN", desc: "React Native Shell around ChatGPT", stars: 2, forks: 1, lang: "JavaScript", homepage: "", pushed: "2023-04-10", created: "2023-04-07", category: "ai" },
+  { name: "homebrew-kde", desc: "KDE tap for homebrew", stars: 2, forks: 3, lang: "Ruby", homepage: "", pushed: "2013-12-06", created: "2013-12-06", category: "devtools" },
+  { name: "prestashop-dokku", desc: "PrestaShop installation on Dokku", stars: 2, forks: 3, lang: "Shell", homepage: "", pushed: "2016-09-22", created: "2016-09-22", category: "devtools" },
+  { name: "Java-Developer-Tools", desc: "Simple developer toolset written in Java to help with day to day tasks", stars: 2, forks: 0, lang: "Java", homepage: "", pushed: "2012-12-04", created: "2012-04-03", category: "devtools" },
+  { name: "backfun", desc: "Backbone fun experiments", stars: 2, forks: 0, lang: "JavaScript", homepage: "", pushed: "2012-06-14", created: "2012-06-12", category: "web" },
+  { name: "soundcloud-resolver", desc: "Simple NodeJS library for resolving SoundCloud URLs to their associated tracks", stars: 2, forks: 1, lang: "JavaScript", homepage: "", pushed: "2016-05-28", created: "2014-07-24", category: "music" },
+  { name: "test-id3-node", desc: "Benchmarking tool comparing node.js ID3 tag libraries", stars: 2, forks: 1, lang: "JavaScript", homepage: "", pushed: "2015-04-19", created: "2014-01-23", category: "music" },
+  { name: "Stretto-Helper-Extension", desc: "Chrome extension to get the YouTube audio URL for a YouTube URL", stars: 1, forks: 0, lang: "JavaScript", homepage: "", pushed: "2026-03-02", created: "2020-11-25", category: "music" },
+  { name: "fileinput-image-resize", desc: "Resize form images client-side using only HTML attributes", stars: 1, forks: 0, lang: "TypeScript", homepage: "", pushed: "2023-12-20", created: "2023-11-19", category: "web" },
+  { name: "pushups", desc: "Simple PWA to help you hit a goal of doing one more pushup than yesterday", stars: 1, forks: 0, lang: "TypeScript", homepage: "https://benkaiser.github.io/pushups/", pushed: "2023-07-02", created: "2022-01-21", category: "health" },
+  { name: "the-read-bible", desc: "Simple tool for reading the Bible and sharing it with others", stars: 1, forks: 0, lang: "HTML", homepage: "https://thereadbible.com", pushed: "2024-01-16", created: "2021-09-27", category: "faith" },
+  { name: "timezone", desc: "Work out how offsets between two timezones change over time", stars: 1, forks: 0, lang: "JavaScript", homepage: "https://benkaiser.github.io/timezone/", pushed: "2021-08-30", created: "2020-02-13", category: "tools" },
+  { name: "bitcoin-forex-compete", desc: "Compares how Bitcoin + exchanges compete with direct foreign exchange", stars: 1, forks: 0, lang: "JavaScript", homepage: "https://bitcoin.kaiserapps.com/", pushed: "2018-06-08", created: "2017-09-27", category: "finance" },
+  { name: "open-in-azure-devops", desc: "Open the current file in Azure DevOps (VSCode extension)", stars: 1, forks: 2, lang: "TypeScript", homepage: "", pushed: "2023-03-03", created: "2019-12-07", category: "devtools" },
+  { name: "digital_team", desc: "Intermittent webcam sharing application for having an overview of an entire team", stars: 1, forks: 0, lang: "JavaScript", homepage: "", pushed: "2015-07-24", created: "2015-07-24", category: "tools" },
+  { name: "FlickGPT", desc: "Generate movie recommendations using an LLM", stars: 1, forks: 0, lang: "Ruby", homepage: "", pushed: "2026-03-29", created: "2025-04-20", category: "ai" },
+  { name: "freelyshared", desc: "Community sharing platform", stars: 1, forks: 0, lang: "HTML", homepage: "https://freelyshared.org", pushed: "2026-03-31", created: "2026-03-29", category: "web" },
+  { name: "ubuntu_battery_percentage", desc: "Brings the battery percentage back to the Unity panel", stars: 1, forks: 0, lang: "Python", homepage: "", pushed: "2012-12-31", created: "2012-12-27", category: "devtools" },
+  { name: "unsplash-downloader", desc: "Unsplash bulk image downloader", stars: 1, forks: 2, lang: "JavaScript", homepage: "", pushed: "2016-09-03", created: "2016-08-02", category: "tools" },
+  { name: "sunday-chords", desc: "ChordPro files + pdfs for Sunday worship on the Piano", stars: 1, forks: 0, lang: "Shell", homepage: "", pushed: "2024-11-21", created: "2024-05-04", category: "music" },
+  { name: "sut.c", desc: "sut.c", stars: 1, forks: 0, lang: "C", homepage: "", pushed: "2013-06-04", created: "2013-06-02", category: "devtools" },
+  { name: "MacsyZones", desc: "Make your workflow more efficient with MacsyZones — window organizer", stars: 1, forks: 0, lang: "Swift", homepage: "https://macsyzones.com", pushed: "2025-11-14", created: "2025-10-22", category: "devtools" },
+  { name: "allshared", desc: "A peer-to-peer borrowing and sharing platform for community resource sharing", stars: 1, forks: 0, lang: "HTML", homepage: "", pushed: "2025-12-15", created: "2025-09-28", category: "web" },
+  { name: "kaiser-aircon-remote", desc: "Air-conditioner remote control interface", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2026-04-12", created: "2026-04-12", category: "hardware" },
+  { name: "kaiserapps", desc: "Personal website for Kaiserapps — kaiserapps.com", stars: 0, forks: 0, lang: "JavaScript", homepage: "https://kaiserapps.com/", pushed: "2026-03-24", created: "2026-03-24", category: "web" },
+  { name: "openfoodfactsinstant", desc: "Client-side searchable database of Australian food products from Open Food Facts", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2026-04-06", created: "2026-04-05", category: "tools" },
+  { name: "vpn-menubar", desc: "Lightweight macOS menu bar app for managing system VPN connections", stars: 0, forks: 0, lang: "Swift", homepage: "", pushed: "2026-04-09", created: "2026-04-09", category: "devtools" },
+  { name: "mob-mcp-crm", desc: "MCP-powered CRM tool", stars: 0, forks: 0, lang: "TypeScript", homepage: "", pushed: "2026-03-29", created: "2026-02-09", category: "ai" },
+  { name: "better-spelling-for-adults", desc: "Adaptive spelling practice app for adults with 5 difficulty levels and spaced repetition", stars: 0, forks: 0, lang: "Dart", homepage: "", pushed: "2026-03-19", created: "2026-03-19", category: "education" },
+  { name: "sight-words-australia", desc: "A sight words learning app for Australian Prep kids using the Oxford Wordlist", stars: 0, forks: 0, lang: "Dart", homepage: "", pushed: "2026-03-19", created: "2026-03-19", category: "education" },
+  { name: "latch-legend", desc: "A grapple-and-swing cave platformer — swing through caves, dodge spikes, race to exit", stars: 0, forks: 0, lang: "Dart", homepage: "", pushed: "2026-03-22", created: "2026-03-22", category: "games" },
+  { name: "nacho-libre-soundboard", desc: "Nacho Libre Soundboard - Flutter app with 100+ sound clips from the movie", stars: 0, forks: 0, lang: "C++", homepage: "", pushed: "2026-03-08", created: "2026-03-08", category: "fun" },
+  { name: "kpop_soundboard", desc: "K-pop Soundboard app", stars: 0, forks: 0, lang: "Dart", homepage: "", pushed: "2026-02-22", created: "2026-02-22", category: "fun" },
+  { name: "offline-dino-dart", desc: "Chrome Dino game clone built with Dart/Flutter", stars: 0, forks: 0, lang: "Dart", homepage: "", pushed: "2026-02-20", created: "2026-02-20", category: "games" },
+  { name: "bible-rag", desc: "Bible RAG (Retrieval Augmented Generation) tool", stars: 0, forks: 0, lang: "TypeScript", homepage: "https://benkaiser.github.io/bible-rag/", pushed: "2026-03-16", created: "2026-03-16", category: "ai" },
+  { name: "bsb-plan-generator", desc: "BSB Bible Reading Plan & Audiobook Generator", stars: 0, forks: 0, lang: "HTML", homepage: "https://benkaiser.github.io/bsb-plan-generator/", pushed: "2026-01-01", created: "2025-12-26", category: "faith" },
+  { name: "joey-auth-redirect-function", desc: "Auth redirect function for Joey MCP Client", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2026-01-18", created: "2026-01-18", category: "ai" },
+  { name: "bathroom-clock", desc: "Basic dashboard for display on the Raspberry Pi in the bathroom", stars: 0, forks: 0, lang: "TypeScript", homepage: "", pushed: "2025-12-23", created: "2022-05-03", category: "hardware" },
+  { name: "dotfiles", desc: "My Linux dotfiles", stars: 0, forks: 0, lang: "CSS", homepage: "", pushed: "2025-07-24", created: "2025-07-24", category: "devtools" },
+  { name: "kids-coding-fun", desc: "Fun repo of experiments created with the kids", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2025-07-14", created: "2025-07-14", category: "education" },
+  { name: "PEERS-home", desc: "PEERS home page", stars: 0, forks: 0, lang: "CSS", homepage: "", pushed: "2025-09-30", created: "2025-05-27", category: "web" },
+  { name: "stretto-auto", desc: "Android Auto components for Stretto integration", stars: 0, forks: 0, lang: "TypeScript", homepage: "", pushed: "2025-09-01", created: "2024-05-26", category: "music" },
+  { name: "population-percent", desc: "Population distribution visualisations with a slider", stars: 0, forks: 0, lang: "JavaScript", homepage: "https://benkaiser.github.io/population-percent/", pushed: "2025-03-28", created: "2025-03-28", category: "data" },
+  { name: "gcfacepainting", desc: "Gold Coast Face Painting website", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2026-03-30", created: "2025-08-05", category: "web" },
+  { name: "gcmobileservicing", desc: "Gold Coast Mobile Servicing website", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2024-09-20", created: "2024-04-25", category: "web" },
+  { name: "onlyfanz.top", desc: "A website displaying only fans", stars: 0, forks: 0, lang: "HTML", homepage: "https://onlyfanz.top/", pushed: "2024-12-16", created: "2024-12-16", category: "fun" },
+  { name: "slurpees", desc: "Tracking the price of slurpees across Australia", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2024-04-05", created: "2024-04-05", category: "fun" },
+  { name: "discord-server-backup", desc: "Download all chats from a Discord server into a SQLite database", stars: 0, forks: 0, lang: "TypeScript", homepage: "", pushed: "2023-04-24", created: "2023-04-23", category: "tools" },
+  { name: "singlelink-themes", desc: "Playing around with different themes for Singlelink", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2021-07-26", created: "2021-07-19", category: "web" },
+  { name: "ai-devotional", desc: "AI-generated daily Christian devotional blog", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2023-08-15", created: "2023-06-03", category: "faith" },
+  { name: "lofi-time", desc: "Simple website to render the current time", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2023-02-04", created: "2023-02-04", category: "fun" },
+  { name: "situps", desc: "Simple PWA to track increasing number of situps each day", stars: 0, forks: 0, lang: "TypeScript", homepage: "", pushed: "2023-07-02", created: "2022-12-20", category: "health" },
+  { name: "webbe-json", desc: "The World English Bible (WEBBE) in JSON format", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2022-11-22", created: "2022-11-22", category: "faith" },
+  { name: "toddler-learning", desc: "Toddler learning activities app", stars: 0, forks: 0, lang: "TypeScript", homepage: "https://benkaiser.github.io/toddler-learning/", pushed: "2022-07-05", created: "2022-07-05", category: "education" },
+  { name: "0to60", desc: "Find a car's 0-60 faster than it can get there", stars: 0, forks: 0, lang: "JavaScript", homepage: "https://benkaiser.github.io/0to60/", pushed: "2022-06-25", created: "2020-01-21", category: "fun" },
+  { name: "bugbell", desc: "Shared call bell useful for \"bug bash\" meetings", stars: 0, forks: 0, lang: "JavaScript", homepage: "https://bell.kaiser.lol", pushed: "2021-12-09", created: "2021-12-06", category: "devtools" },
+  { name: "lifeclock", desc: "View your life in weeks as a new tab page in Chrome", stars: 0, forks: 1, lang: "JavaScript", homepage: "", pushed: "2021-09-03", created: "2021-09-03", category: "tools" },
+  { name: "snowpack-actions", desc: "Example project to show deploying a snowpack project to GitHub Pages", stars: 0, forks: 0, lang: "TypeScript", homepage: "https://benkaiser.github.io/snowpack-actions/", pushed: "2021-02-09", created: "2021-02-09", category: "devtools" },
+  { name: "iframe-nav-test", desc: "iframe navigation testing", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2021-01-21", created: "2021-01-21", category: "web" },
+  { name: "cheap-coke-geoip", desc: "Azure function for cheapcoke.com to provide rough user location via IP", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2021-04-25", created: "2021-01-17", category: "fun" },
+  { name: "testing-web-action-persistence", desc: "Testing triggering GitHub Actions via the web", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2021-05-10", created: "2021-04-21", category: "devtools" },
+  { name: "real-price", desc: "Find the real price of a realestate.com.au listing", stars: 0, forks: 1, lang: "JavaScript", homepage: "", pushed: "2020-09-26", created: "2020-09-26", category: "finance" },
+  { name: "party", desc: "Host a virtual party, where chat volume reduces over distance", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2022-12-10", created: "2020-05-25", category: "fun" },
+  { name: "hoisting-test", desc: "Testing module equality between imports using arrow functions", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2023-01-07", created: "2020-03-12", category: "devtools" },
+  { name: "roller", desc: "Rick roll someone on page reload", stars: 0, forks: 0, lang: "HTML", homepage: "", pushed: "2019-07-27", created: "2019-07-26", category: "fun" },
+  { name: "boat", desc: "A bunch of fun experiments made on a boat", stars: 0, forks: 0, lang: "JavaScript", homepage: "https://benkaiser.github.io/boat", pushed: "2019-07-06", created: "2019-07-06", category: "fun" },
+  { name: "trdm-stack", desc: "Basic stack with Typescript, React, Docker, MariaDB", stars: 0, forks: 0, lang: "TypeScript", homepage: "", pushed: "2022-12-10", created: "2019-03-21", category: "devtools" },
+  { name: "bible-mailer", desc: "Receive a chapter of the Bible a day via email", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2022-12-06", created: "2019-08-10", category: "faith" },
+  { name: "stretto-mobile", desc: "Stretto mobile version", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2016-10-17", created: "2016-10-10", category: "music" },
+  { name: "dokku-issue-repro-killing-server", desc: "Project showing reproduction of specific issue in Dokku", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2018-11-05", created: "2018-11-05", category: "devtools" },
+  { name: "bible-brush", desc: "Read your Bible, as often as you brush your teeth", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2014-06-20", created: "2014-06-19", category: "faith" },
+  { name: "emoji-replacer", desc: "Chrome extension to replace all words you type with emoji", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2016-08-15", created: "2016-07-10", category: "fun" },
+  { name: "datasciencecoursera", desc: "Data Science Coursera coursework", stars: 0, forks: 0, lang: "", homepage: "", pushed: "2016-09-23", created: "2016-09-23", category: "education" },
+  { name: "summa", desc: "ExponentJS application to practice numeracy skills", stars: 0, forks: 0, lang: "JavaScript", homepage: "https://getexponent.com/@benkaiser/summa", pushed: "2016-12-21", created: "2016-09-28", category: "education" },
+  { name: "geojson-geometry-lookup", desc: "Web wrapper around polygon-lookup in a GeoJSON file that returns the matching feature", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2016-04-18", created: "2016-04-18", category: "tools" },
+  { name: "simplewebrtc_test", desc: "Testing of peers automatically connecting to one another", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2016-04-11", created: "2016-04-11", category: "web" },
+  { name: "snaptop", desc: "Snapchat for desktop and web", stars: 0, forks: 0, lang: "", homepage: "", pushed: "2016-03-19", created: "2016-03-19", category: "tools" },
+  { name: "how_long_until", desc: "How long is it until 5pm again?", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2016-10-13", created: "2016-10-13", category: "fun" },
+  { name: "flynn-ghost", desc: "Base repository for setting up a Ghost blog on Flynn PaaS", stars: 0, forks: 0, lang: "CSS", homepage: "", pushed: "2016-09-17", created: "2016-09-17", category: "devtools" },
+  { name: "soundtolight", desc: "A simple Android application to display a white light based on sound", stars: 0, forks: 0, lang: "Java", homepage: "", pushed: "2015-02-24", created: "2015-02-24", category: "hardware" },
+  { name: "assessment_plan", desc: "Emily's assessment timeline tool", stars: 0, forks: 1, lang: "", homepage: "", pushed: "2015-01-28", created: "2015-01-26", category: "tools" },
+  { name: "iasurvey", desc: "Interns Australia survey system - open source for other organisations", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2014-10-20", created: "2014-10-20", category: "tools" },
+  { name: "auto2048", desc: "Own version of 2048 for easy testability — used to build an AI", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2014-09-08", created: "2014-09-08", category: "games" },
+  { name: "gifonic", desc: "A joint project building a webpage to store gifs", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2014-08-03", created: "2014-08-03", category: "fun" },
+  { name: "me-bot", desc: "A bot that takes a CSV file of your conversation and lets you talk to them or yourself", stars: 0, forks: 0, lang: "JavaScript", homepage: "", pushed: "2014-07-21", created: "2014-07-21", category: "ai" },
+  { name: "n7000_ubuntu_touch", desc: "Build of Ubuntu Touch for the N7000 Galaxy Note", stars: 0, forks: 0, lang: "", homepage: "", pushed: "2013-02-25", created: "2013-02-25", category: "hardware" },
+  { name: "trojita", desc: "IMAP email client experiments", stars: 0, forks: 1, lang: "C++", homepage: "", pushed: "2013-11-28", created: "2013-11-28", category: "devtools" },
+  { name: "ubuntu_ssh_remote", desc: "App for executing commands over SSH from a Unity indicator", stars: 0, forks: 0, lang: "Python", homepage: "", pushed: "2012-12-25", created: "2012-12-25", category: "devtools" },
+];
+
+// ========================================================
+//  CATEGORY CONFIG
+// ========================================================
+const CATEGORIES = {
+  all: { label: "All", icon: "🗂" },
+  music: { label: "Music", icon: "🎵" },
+  ai: { label: "AI / LLM", icon: "🤖" },
+  web: { label: "Web Apps", icon: "🌐" },
+  devtools: { label: "Dev Tools", icon: "🛠" },
+  tools: { label: "Utilities", icon: "🔧" },
+  faith: { label: "Faith", icon: "📖" },
+  education: { label: "Education", icon: "📚" },
+  finance: { label: "Finance", icon: "📈" },
+  hardware: { label: "Hardware", icon: "🔌" },
+  fun: { label: "Fun & Misc", icon: "🎉" },
+  games: { label: "Games", icon: "🎮" },
+  health: { label: "Health", icon: "💪" },
+  data: { label: "Data Viz", icon: "📊" },
+};
+
+// ========================================================
+//  LANGUAGE COLORS
+// ========================================================
+const LANG_COLORS = {
+  JavaScript: "#f1e05a", TypeScript: "#3178c6", Python: "#3572A5",
+  HTML: "#e34c26", CSS: "#563d7c", Java: "#b07219", Dart: "#00B4AB",
+  Ruby: "#701516", Swift: "#F05138", C: "#555555", "C++": "#f34b7d",
+  Kotlin: "#A97BFF", Shell: "#89e051", PHP: "#4F5D95"
+};
+
+// ========================================================
+//  STATE
+// ========================================================
+let currentCategory = "all";
+let currentSort = "pushed";
+let searchQuery = "";
+
+// ========================================================
+//  FEATURED CARDS
+// ========================================================
+function renderFeatured() {
+  const grid = document.getElementById("featured-grid");
+  const featured = REPOS.filter(r => r.featured).sort((a,b) => b.stars - a.stars);
+  grid.innerHTML = featured.map(r => `
+    <div class="featured-card">
+      <div class="card-top">
+        <h3><a href="https://github.com/benkaiser/${r.name}" target="_blank" rel="noopener">${r.name}</a></h3>
+        ${r.stars > 0 ? `<span class="stars">★ ${r.stars}</span>` : ""}
+      </div>
+      <p class="desc">${r.desc}</p>
+      <div class="card-footer">
+        <div class="tags">
+          ${r.lang ? `<span class="tag">${r.lang}</span>` : ""}
+          <span class="tag">${CATEGORIES[r.category]?.icon || ""} ${CATEGORIES[r.category]?.label || r.category}</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/benkaiser/${r.name}" target="_blank" rel="noopener">Repo →</a>
+          ${r.homepage ? `<a href="${r.homepage}" target="_blank" rel="noopener">Site →</a>` : ""}
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+// ========================================================
+//  CATEGORY PILLS
+// ========================================================
+function renderCategoryPills() {
+  const el = document.getElementById("category-pills");
+  el.innerHTML = Object.entries(CATEGORIES).map(([key, val]) => {
+    const count = key === "all" ? REPOS.length : REPOS.filter(r => r.category === key).length;
+    if (count === 0 && key !== "all") return "";
+    return `<button class="filter-btn ${currentCategory === key ? 'active' : ''}" data-cat="${key}">${val.icon} ${val.label} (${count})</button>`;
+  }).join("");
+
+  el.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentCategory = btn.dataset.cat;
+      renderCategoryPills();
+      renderTable();
+    });
+  });
+}
+
+// ========================================================
+//  TABLE
+// ========================================================
+function getFiltered() {
+  let list = REPOS;
+
+  if (currentCategory !== "all") {
+    list = list.filter(r => r.category === currentCategory);
+  }
+
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(r =>
+      r.name.toLowerCase().includes(q) ||
+      r.desc.toLowerCase().includes(q) ||
+      (r.lang && r.lang.toLowerCase().includes(q)) ||
+      (CATEGORIES[r.category]?.label || "").toLowerCase().includes(q)
+    );
+  }
+
+  list = [...list];
+  switch (currentSort) {
+    case "stars": list.sort((a,b) => b.stars - a.stars); break;
+    case "pushed": list.sort((a,b) => b.pushed.localeCompare(a.pushed)); break;
+    case "created-desc": list.sort((a,b) => b.created.localeCompare(a.created)); break;
+    case "created-asc": list.sort((a,b) => a.created.localeCompare(b.created)); break;
+    case "name": list.sort((a,b) => a.name.localeCompare(b.name)); break;
+  }
+
+  return list;
+}
+
+function formatDate(d) {
+  const dt = new Date(d);
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return `${months[dt.getMonth()]} ${dt.getFullYear()}`;
+}
+
+function renderTable() {
+  const list = getFiltered();
+  const tbody = document.getElementById("repo-tbody");
+
+  document.getElementById("result-count").textContent =
+    `Showing ${list.length} of ${REPOS.length} projects`;
+
+  tbody.innerHTML = list.map(r => {
+    const color = LANG_COLORS[r.lang] || "#6b7280";
+    const langClass = r.lang ? `lang-${r.lang.toLowerCase().replace(/[^a-z]/g, '')}` : "lang-default";
+    return `<tr>
+      <td><a class="repo-name" href="https://github.com/benkaiser/${r.name}" target="_blank" rel="noopener">${r.name}</a></td>
+      <td class="repo-desc">${r.desc}</td>
+      <td>${r.lang ? `<span class="lang-dot" style="background:${color}"></span><span class="lang-label">${r.lang}</span>` : '<span class="lang-label" style="color:var(--text-muted)">—</span>'}</td>
+      <td class="repo-stars-cell">${r.stars > 0 ? `★ ${r.stars}` : ""}</td>
+      <td class="repo-links-cell">
+        <a href="https://github.com/benkaiser/${r.name}" target="_blank" rel="noopener">Repo</a>
+        ${r.homepage ? `<a href="${r.homepage}" target="_blank" rel="noopener">Site</a>` : ""}
+      </td>
+      <td class="repo-date">${formatDate(r.pushed)}</td>
+    </tr>`;
+  }).join("");
+}
+
+// ========================================================
+//  CANVAS GRID ANIMATION
+// ========================================================
+function initCanvas() {
+  const canvas = document.getElementById("hero-bg");
+  const ctx = canvas.getContext("2d");
+  let w, h, cols, rows;
+  const cellSize = 40;
+  const dots = [];
+
+  function resize() {
+    const hero = canvas.parentElement;
+    w = canvas.width = hero.offsetWidth;
+    h = canvas.height = hero.offsetHeight;
+    cols = Math.ceil(w / cellSize);
+    rows = Math.ceil(h / cellSize);
+  }
+
+  function initDots() {
+    dots.length = 0;
+    for (let i = 0; i < 12; i++) {
+      dots.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        r: Math.random() * 2 + 1
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    // Grid
+    ctx.strokeStyle = "rgba(68, 187, 255, 0.06)";
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x <= cols; x++) {
+      ctx.beginPath();
+      ctx.moveTo(x * cellSize, 0);
+      ctx.lineTo(x * cellSize, h);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= rows; y++) {
+      ctx.beginPath();
+      ctx.moveTo(0, y * cellSize);
+      ctx.lineTo(w, y * cellSize);
+      ctx.stroke();
+    }
+
+    // Moving dots + connections
+    for (let i = 0; i < dots.length; i++) {
+      const d = dots[i];
+      d.x += d.vx;
+      d.y += d.vy;
+      if (d.x < 0 || d.x > w) d.vx *= -1;
+      if (d.y < 0 || d.y > h) d.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(68, 187, 255, 0.5)";
+      ctx.fill();
+
+      for (let j = i + 1; j < dots.length; j++) {
+        const d2 = dots[j];
+        const dist = Math.hypot(d.x - d2.x, d.y - d2.y);
+        if (dist < 200) {
+          ctx.beginPath();
+          ctx.moveTo(d.x, d.y);
+          ctx.lineTo(d2.x, d2.y);
+          ctx.strokeStyle = `rgba(68, 187, 255, ${0.15 * (1 - dist / 200)})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  initDots();
+  draw();
+  window.addEventListener("resize", () => { resize(); initDots(); });
+}
+
+// ========================================================
+//  INIT
+// ========================================================
+document.addEventListener("DOMContentLoaded", () => {
+  initCanvas();
+  renderFeatured();
+  renderCategoryPills();
+  renderTable();
+
+  document.getElementById("search").addEventListener("input", e => {
+    searchQuery = e.target.value;
+    renderTable();
+  });
+
+  document.getElementById("sort-select").addEventListener("change", e => {
+    currentSort = e.target.value;
+    renderTable();
+  });
+});
+</script>
+</body>
+</html>
